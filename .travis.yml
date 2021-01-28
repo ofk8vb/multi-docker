@@ -1,24 +1,21 @@
+language: generic
 sudo: required
 services:
   - docker
-
 before_install:
   - docker build -t farq/react-test -f ./client/Dockerfile.dev ./client
-
 script:
   - docker run -e CI=true farq/react-test npm test
-
 after_success:
   - docker build -t farq/multi-client ./client
   - docker build -t farq/multi-nginx ./nginx
   - docker build -t farq/multi-server ./server
   - docker build -t farq/multi-worker ./worker
-
-#login in to Docker hub
-# take the value of DOCKER_PASSWORD from travis CI environment than emit it to the stdin of password for docker login "form"
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" -- password-stdin
-# Take those images and push them to docker hub
-- docker push farq/multi-client
-- docker push farq/multi-nginx
-- docker push farq/multi-server
-- docker push farq/multi-worker
+  #login in to Docker hub
+  # take the value of DOCKER_PASSWORD from travis CI environment than emit it to the stdin of password for docker login "form"
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" -- password-stdin
+  # Take those images and push them to docker hub
+  - docker push farq/multi-client
+  - docker push farq/multi-nginx
+  - docker push farq/multi-server
+  - docker push farq/multi-worker
