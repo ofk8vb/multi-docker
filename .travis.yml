@@ -13,7 +13,7 @@ after_success:
   - docker build -t farq/multi-worker ./worker
   #login in to Docker hub
   # take the value of DOCKER_PASSWORD from travis CI environment than emit it to the stdin of password for docker login "form"
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" -- password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
   - docker push farq/multi-client
   - docker push farq/multi-nginx
